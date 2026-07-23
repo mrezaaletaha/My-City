@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">My City</string>
+    <string name="restaurants_title">Restaurants</string>
+    <string name="coffee_shops_title">Coffee shops</string>
+    <string name="attractions_title">Attractions</string>
+    <string name="shopping_centers_title">Shopping centers</string>
+
+    <string name="recommendations_coffee_shop_1">787 Coffee</string>
+    <string name="recommendations_coffee_shop_2">BUDDIES COFFEE</string>
+    <string name="recommendations_coffee_shop_3">The Lost Draft</string>
+    <string name="recommendations_coffee_shop_4">Urban Backyard</string>
+    <string name="recommendations_coffee_shop_5">Bibble &amp; Sip</string>
+    <string name="recommendations_restaurant_1">Gramercy Tavern</string>
+    <string name="recommendations_restaurant_2">Monkey Bar</string>
+    <string name="recommendations_restaurant_3">Au Cheval</string>
+    <string name="recommendations_restaurant_4">Altair Restaurant NYC</string>
+    <string name="recommendations_restaurant_5">Manhatta</string>
+    <string name="recommendations_shopping_center_1">Hudson Yards</string>
+    <string name="recommendations_shopping_center_2">Westfield World Trade Center</string>
+    <string name="recommendations_shopping_center_3">Roosevelt Field</string>
+    <string name="recommendations_shopping_center_4">World Trade Center</string>
+    <string name="recommendations_shopping_center_5">4 Union Square</string>
+    <string name="recommendations_attraction_1">Empire State Building</string>
+    <string name="recommendations_attraction_2">Top of The Rock</string>
+    <string name="recommendations_attraction_3">Central Park</string>
+    <string name="recommendations_attraction_4">Times Square</string>
+    <string name="recommendations_attraction_5">Statue of Liberty</string>
 </resources>
