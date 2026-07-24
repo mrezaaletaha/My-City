@@ -1,5 +1,6 @@
 package ir.miro.learning.mycity.ui
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -10,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ir.miro.learning.mycity.data.local.LocalCategoriesDataProvider
+import ir.miro.learning.mycity.data.local.LocalRecommendationsDataProvider
 
 /**
  * @author mrezaaletaha
@@ -38,7 +40,10 @@ fun MyCityApp() {
                 )
             }
             composable(route = MyCityScreen.RECOMMENDATION.name) {
-
+                RecommendationsListScreen(
+                    recommendations = LocalRecommendationsDataProvider.allRecommendations,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
             composable(route = MyCityScreen.DETAILS.name) {
 

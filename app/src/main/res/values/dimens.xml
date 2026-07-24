@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="small_padding">8dp</dimen>
+    <dimen name="medium_padding">16dp</dimen>
+
+    <dimen name="recommendation_list_item_image_size">100dp</dimen>
+    <dimen name="recommendation_list_item_image_corner_radius">20dp</dimen>
+
+    <dimen name="thickness_divider">1dp</dimen>
 </resources>
