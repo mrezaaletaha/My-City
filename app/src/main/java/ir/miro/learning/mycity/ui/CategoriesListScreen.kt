@@ -25,8 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import ir.miro.learning.mycity.R
+import ir.miro.learning.mycity.data.Category
 import ir.miro.learning.mycity.data.local.LocalCategoriesDataProvider
-import ir.miro.learning.mycity.ui.utils.SimpleListItem
 
 /**
  * @author mrezaaletaha
@@ -34,7 +34,8 @@ import ir.miro.learning.mycity.ui.utils.SimpleListItem
 
 @Composable
 fun CategoriesListScreen(
-    categories: List<SimpleListItem>,
+    categories: List<Category>,
+    onCategoryCardPressed: (Category) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -44,6 +45,7 @@ fun CategoriesListScreen(
         categories.forEach { category ->
             CategoryListItem(
                 category = category,
+                onCardClick = { onCategoryCardPressed(category) },
                 modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.medium_padding))
             )
         }
@@ -52,23 +54,25 @@ fun CategoriesListScreen(
 
 @Composable
 fun CategoryListItem(
-    category: SimpleListItem,
+    category: Category,
+    onCardClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier,
+        onClick = onCardClick,
     ) {
         Box {
             Image(
-                painter = painterResource(category.imgResId),
-                contentDescription = stringResource(category.nameResId),
+                painter = painterResource(category.img),
+                contentDescription = stringResource(category.title),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(2f)
             )
             Text(
-                text = stringResource(category.nameResId),
+                text = stringResource(category.title),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 style = MaterialTheme.typography.headlineSmall,
@@ -94,6 +98,7 @@ fun CategoryListItem(
 fun CategoriesListScreenPreview() {
     CategoriesListScreen(
         categories = LocalCategoriesDataProvider.allCategories,
-        modifier = Modifier.verticalScroll(rememberScrollState())
+        modifier = Modifier.verticalScroll(rememberScrollState()),
+        onCategoryCardPressed = {}
     )
 }

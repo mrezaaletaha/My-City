@@ -1,6 +1,7 @@
 package ir.miro.learning.mycity.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,6 +39,7 @@ import ir.miro.learning.mycity.data.local.LocalRecommendationsDataProvider
 @Composable
 fun RecommendationsListScreen(
     recommendations: List<Recommendation>,
+    onRecommendationClick: (Recommendation) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -52,13 +54,16 @@ fun RecommendationsListScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = dimensionResource(R.dimen.medium_padding))
+                    .clickable(
+                        onClick = { onRecommendationClick(recommendation) }
+                    )
             )
         }
     }
 }
 
 @Composable
-fun RecommendationListItem(
+private fun RecommendationListItem(
     recommendation: Recommendation,
     modifier: Modifier = Modifier
 ) {
@@ -98,6 +103,7 @@ fun RecommendationListItem(
 @Composable
 fun RecommendationsListScreenPreview() {
     RecommendationsListScreen(
-        recommendations = LocalRecommendationsDataProvider.allRecommendations
+        recommendations = LocalRecommendationsDataProvider.allRecommendations,
+        onRecommendationClick = {}
     )
 }

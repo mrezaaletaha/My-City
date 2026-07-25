@@ -11,5 +11,5 @@ data class Recommendation(
     val id: Long,
     @StringRes val name: Int,
     @DrawableRes val img: Int,
-    val categoryType: CategoryType,
+    val category: Category,
 )

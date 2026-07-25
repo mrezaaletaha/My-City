@@ -9,14 +9,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ir.miro.learning.mycity.R
-import ir.miro.learning.mycity.data.local.LocalCategoriesDataProvider
-import ir.miro.learning.mycity.data.local.LocalRecommendationsDataProvider
 
 /**
  * @author mrezaaletaha
@@ -40,11 +41,14 @@ fun MyCityAppBar(
 @Composable
 fun MyCityApp() {
     val navController = rememberNavController()
+    val viewModel: MyCityViewModel = viewModel()
+
     Scaffold(
         topBar = {
             MyCityAppBar()
         }
     ) { innerPadding ->
+        val uiState by viewModel.uiState.collectAsState()
         NavHost(
             navController = navController,
             startDestination = MyCityScreen.CATEGORY.name,
@@ -52,19 +56,27 @@ fun MyCityApp() {
         ) {
             composable(route = MyCityScreen.CATEGORY.name) {
                 CategoriesListScreen(
-                    categories = LocalCategoriesDataProvider.allCategories,
+                    categories = uiState.categories.keys.toList(),
+                    onCategoryCardPressed = {
+                        viewModel.updateRecommendationsScreenStates(it)
+                        navController.navigate(route = MyCityScreen.RECOMMENDATION.name)
+                    },
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
                 )
             }
             composable(route = MyCityScreen.RECOMMENDATION.name) {
                 RecommendationsListScreen(
-                    recommendations = LocalRecommendationsDataProvider.allRecommendations,
+                    recommendations = uiState.currentCategoryRecommendations,
+                    onRecommendationClick = {
+                        viewModel.updateDetailsScreenStates(it)
+                        navController.navigate(MyCityScreen.DETAILS.name)
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
             composable(route = MyCityScreen.DETAILS.name) {
-
+                Text(text = (stringResource(uiState.currentSelectedRecommendation?.name!!)))
             }
         }
     }
