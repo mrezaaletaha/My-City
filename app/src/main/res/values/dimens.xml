@@ -7,4 +7,7 @@
     <dimen name="recommendation_list_item_image_corner_radius">20dp</dimen>
 
     <dimen name="thickness_divider">1dp</dimen>
+
+    <dimen name="padding_detail_content_horizontal">32dp</dimen>
+    <dimen name="padding_detail_content_vertical">24dp</dimen>
 </resources>

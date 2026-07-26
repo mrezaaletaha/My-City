@@ -1,5 +1,6 @@
 package ir.miro.learning.mycity.ui
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -76,7 +77,11 @@ fun MyCityApp() {
                 )
             }
             composable(route = MyCityScreen.DETAILS.name) {
-                Text(text = (stringResource(uiState.currentSelectedRecommendation?.name!!)))
+                RecommendationDetailsScreen(
+                    selectedRecommendation = uiState.currentSelectedRecommendation
+                        ?: uiState.currentCategoryRecommendations.first(),
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
     }
