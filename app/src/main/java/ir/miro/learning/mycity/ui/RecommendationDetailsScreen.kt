@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import ir.miro.learning.mycity.R
 import ir.miro.learning.mycity.data.Recommendation
 import ir.miro.learning.mycity.data.local.LocalRecommendationsDataProvider
+import ir.miro.learning.mycity.ui.theme.MyCityTheme
 
 /**
  * @author mrezaaletaha
@@ -71,7 +73,7 @@ fun RecommendationDetailsScreen(
                             Brush.verticalGradient(
                                 listOf(
                                     Color.Transparent,
-                                    MaterialTheme.colorScheme.surfaceContainer
+                                    MaterialTheme.colorScheme.secondaryContainer
                                 ),
                                 startY = 0F,
                                 endY = 50F
@@ -82,7 +84,7 @@ fun RecommendationDetailsScreen(
                 ) {
                     Text(
                         text = stringResource(selectedRecommendation.name),
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
                         style = MaterialTheme.typography.headlineSmall,
                         maxLines = 2,
                         modifier = Modifier.weight(1F)
@@ -111,7 +113,11 @@ fun RecommendationDetailsScreen(
 @Preview
 @Composable
 fun RecommendationDetailsScreenPreview() {
-    RecommendationDetailsScreen(
-        selectedRecommendation = LocalRecommendationsDataProvider.allRecommendations.first()
-    )
+    MyCityTheme {
+        Surface(color = MaterialTheme.colorScheme.background) {
+            RecommendationDetailsScreen(
+                selectedRecommendation = LocalRecommendationsDataProvider.allRecommendations.first()
+            )
+        }
+    }
 }

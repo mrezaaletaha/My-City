@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import ir.miro.learning.mycity.R
 import ir.miro.learning.mycity.data.Category
 import ir.miro.learning.mycity.data.local.LocalCategoriesDataProvider
+import ir.miro.learning.mycity.ui.theme.MyCityTheme
 
 /**
  * @author mrezaaletaha
@@ -47,13 +48,15 @@ fun CategoriesListScreen(
         Column(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.medium_padding)),
             modifier = Modifier.padding(
-                top = dimensionResource(R.dimen.medium_padding),
+                top = dimensionResource(R.dimen.small_padding),
+                bottom = dimensionResource(R.dimen.small_padding),
             )
         ) {
             categories.forEach { category ->
                 CategoryListItem(
                     category = category,
                     onCardClick = { onCategoryCardPressed(category) },
+                    modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.small_padding))
                 )
             }
         }
@@ -82,13 +85,13 @@ fun CategoryListItem(
             Text(
                 text = stringResource(category.title),
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
                     .alpha(0.8f)
-                    .background(color = MaterialTheme.colorScheme.primaryContainer)
+                    .background(color = MaterialTheme.colorScheme.surfaceContainer)
             )
         }
         Row(
@@ -104,9 +107,11 @@ fun CategoryListItem(
 @Preview
 @Composable
 fun CategoriesListScreenPreview() {
-    CategoriesListScreen(
-        categories = LocalCategoriesDataProvider.allCategories,
-        modifier = Modifier.verticalScroll(rememberScrollState()),
-        onCategoryCardPressed = {}
-    )
+    MyCityTheme {
+        CategoriesListScreen(
+            categories = LocalCategoriesDataProvider.allCategories,
+            modifier = Modifier.verticalScroll(rememberScrollState()),
+            onCategoryCardPressed = {}
+        )
+    }
 }

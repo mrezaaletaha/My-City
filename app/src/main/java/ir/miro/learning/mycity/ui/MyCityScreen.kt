@@ -1,19 +1,24 @@
 package ir.miro.learning.mycity.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,7 +40,16 @@ private enum class MyCityScreen {
 fun MyCityAppBar(
 ) {
     TopAppBar(
-        title = { Text(text = stringResource(R.string.app_name)) }
+        title = {
+            Text(
+                text = stringResource(R.string.app_name),
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        )
     )
 }
 
@@ -44,49 +58,51 @@ fun MyCityApp() {
     val navController = rememberNavController()
     val viewModel: MyCityViewModel = viewModel()
 
-    Scaffold(
-        topBar = {
-            MyCityAppBar()
-        },
-    ) { innerPadding ->
-        val uiState by viewModel.uiState.collectAsState()
-        NavHost(
-            navController = navController,
-            startDestination = MyCityScreen.CATEGORY.name,
-//            modifier = Modifier.padding(innerPadding)
-        ) {
-            composable(route = MyCityScreen.CATEGORY.name) {
-                CategoriesListScreen(
-                    categories = uiState.categories.keys.toList(),
-                    onCategoryCardPressed = {
-                        viewModel.updateRecommendationsScreenStates(it)
-                        navController.navigate(route = MyCityScreen.RECOMMENDATION.name)
-                    },
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState())
-                        .padding(innerPadding)
-                )
-            }
-            composable(route = MyCityScreen.RECOMMENDATION.name) {
-                RecommendationsListScreen(
-                    recommendations = uiState.currentCategoryRecommendations,
-                    onRecommendationClick = {
-                        viewModel.updateDetailsScreenStates(it)
-                        navController.navigate(MyCityScreen.DETAILS.name)
-                    },
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                )
-            }
-            composable(route = MyCityScreen.DETAILS.name) {
-                RecommendationDetailsScreen(
-                    selectedRecommendation = uiState.currentSelectedRecommendation
-                        ?: uiState.currentCategoryRecommendations.first(),
-                    contentPadding = innerPadding,
-                    modifier = Modifier
-                        .fillMaxSize()
-                )
+    Surface(color = MaterialTheme.colorScheme.background) {
+        Scaffold(
+            topBar = {
+                MyCityAppBar()
+            },
+        ) { innerPadding ->
+            val uiState by viewModel.uiState.collectAsState()
+            NavHost(
+                navController = navController,
+                startDestination = MyCityScreen.CATEGORY.name,
+                //            modifier = Modifier.padding(innerPadding)
+            ) {
+                composable(route = MyCityScreen.CATEGORY.name) {
+                    CategoriesListScreen(
+                        categories = uiState.categories.keys.toList(),
+                        onCategoryCardPressed = {
+                            viewModel.updateRecommendationsScreenStates(it)
+                            navController.navigate(route = MyCityScreen.RECOMMENDATION.name)
+                        },
+                        modifier = Modifier
+                            .verticalScroll(rememberScrollState())
+                            .padding(innerPadding)
+                    )
+                }
+                composable(route = MyCityScreen.RECOMMENDATION.name) {
+                    RecommendationsListScreen(
+                        recommendations = uiState.currentCategoryRecommendations,
+                        onRecommendationClick = {
+                            viewModel.updateDetailsScreenStates(it)
+                            navController.navigate(MyCityScreen.DETAILS.name)
+                        },
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    )
+                }
+                composable(route = MyCityScreen.DETAILS.name) {
+                    RecommendationDetailsScreen(
+                        selectedRecommendation = uiState.currentSelectedRecommendation
+                            ?: uiState.currentCategoryRecommendations.first(),
+                        contentPadding = innerPadding,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
+                }
             }
         }
     }
