@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +25,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import ir.miro.learning.mycity.R
 import ir.miro.learning.mycity.data.Recommendation
 import ir.miro.learning.mycity.data.local.LocalRecommendationsDataProvider
@@ -36,12 +38,19 @@ import ir.miro.learning.mycity.data.local.LocalRecommendationsDataProvider
 fun RecommendationDetailsScreen(
     selectedRecommendation: Recommendation,
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     Box(
         modifier = modifier
             .verticalScroll(rememberScrollState())
     ) {
-        Column() {
+        Column(
+            modifier = Modifier
+                .padding(
+                    top = contentPadding.calculateTopPadding(),
+                    bottom = contentPadding.calculateBottomPadding()
+                )
+        ) {
             Box {
                 Image(
                     painter = painterResource(selectedRecommendation.img),

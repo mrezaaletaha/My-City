@@ -47,13 +47,13 @@ fun MyCityApp() {
     Scaffold(
         topBar = {
             MyCityAppBar()
-        }
+        },
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
         NavHost(
             navController = navController,
             startDestination = MyCityScreen.CATEGORY.name,
-            modifier = Modifier.padding(innerPadding)
+//            modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = MyCityScreen.CATEGORY.name) {
                 CategoriesListScreen(
@@ -64,6 +64,7 @@ fun MyCityApp() {
                     },
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
+                        .padding(innerPadding)
                 )
             }
             composable(route = MyCityScreen.RECOMMENDATION.name) {
@@ -73,14 +74,18 @@ fun MyCityApp() {
                         viewModel.updateDetailsScreenStates(it)
                         navController.navigate(MyCityScreen.DETAILS.name)
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
                 )
             }
             composable(route = MyCityScreen.DETAILS.name) {
                 RecommendationDetailsScreen(
                     selectedRecommendation = uiState.currentSelectedRecommendation
                         ?: uiState.currentCategoryRecommendations.first(),
-                    modifier = Modifier.fillMaxSize()
+                    contentPadding = innerPadding,
+                    modifier = Modifier
+                        .fillMaxSize()
                 )
             }
         }
