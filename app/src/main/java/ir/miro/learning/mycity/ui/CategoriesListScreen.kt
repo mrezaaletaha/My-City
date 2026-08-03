@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -68,6 +71,7 @@ fun CategoryListItem(
     category: Category,
     onCardClick: () -> Unit,
     modifier: Modifier = Modifier,
+    selected: Boolean = false,
 ) {
     Card(
         modifier = modifier,
@@ -85,21 +89,51 @@ fun CategoryListItem(
             Text(
                 text = stringResource(category.title),
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                color = if (selected)
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                else MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    .alpha(0.8f)
-                    .background(color = MaterialTheme.colorScheme.surfaceContainer)
+                    .alpha(if (selected) 0.9f else 0.8f)
+                    .background(
+                        color = if (selected)
+                            MaterialTheme.colorScheme.primaryContainer
+                        else
+                            MaterialTheme.colorScheme.surfaceContainer
+                    )
             )
         }
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
-            modifier = modifier
-        ) {
-
+    }
+}
+@Composable
+fun CategoriesListHorizontal(
+    uiState: MyCityUiState,
+    onCategoryCardPressed: (Category) -> Unit,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
+) {
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(R.dimen.small_padding)),
+        contentPadding = PaddingValues(
+            top = contentPadding.calculateTopPadding(),
+            start = dimensionResource(R.dimen.medium_padding),
+            end = dimensionResource(R.dimen.medium_padding)
+        ),
+        modifier = modifier,
+    ) {
+        items(
+            items = uiState.categories.keys.toList(),
+            key = { category -> category.id }) { category ->
+            CategoryListItem(
+                category = category,
+                onCardClick = { onCategoryCardPressed(category) },
+                selected = uiState.currentCategory.id == category.id,
+                modifier = Modifier
+                    .height(dimensionResource(R.dimen.card_image_height))
+                    .aspectRatio(2f)
+            )
         }
     }
 }

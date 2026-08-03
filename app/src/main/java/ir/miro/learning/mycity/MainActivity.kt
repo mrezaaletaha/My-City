@@ -4,22 +4,30 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import ir.miro.learning.mycity.ui.MyCityApp
 import ir.miro.learning.mycity.ui.theme.MyCityTheme
 
 class MainActivity : ComponentActivity() {
+
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MyCityTheme {
-                Surface(color = MaterialTheme.colorScheme.background) {
-                    MyCityApp()
+                Surface {
+                    val windowSize = calculateWindowSizeClass(this)
+                    MyCityApp(
+                        windowSize = windowSize.widthSizeClass
+                    )
                 }
+
             }
         }
     }
@@ -29,8 +37,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyCityAppCompactPreview() {
     MyCityTheme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            MyCityApp()
+        Surface {
+            MyCityApp(
+                windowSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -39,8 +49,10 @@ fun MyCityAppCompactPreview() {
 @Composable
 fun MyCityAppMediumPreview() {
     MyCityTheme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            MyCityApp()
+        Surface {
+            MyCityApp(
+                windowSize = WindowWidthSizeClass.Medium
+            )
         }
     }
 }
@@ -48,9 +60,11 @@ fun MyCityAppMediumPreview() {
 @Preview(widthDp = 1000)
 @Composable
 fun MyCityAppExpandedPreview() {
-    MyCityTheme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            MyCityApp()
+    Surface {
+        MyCityTheme {
+            MyCityApp(
+                windowSize = WindowWidthSizeClass.Expanded
+            )
         }
     }
 }

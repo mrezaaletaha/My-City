@@ -32,7 +32,9 @@ class MyCityViewModel : ViewModel() {
     fun updateRecommendationsScreenStates(category: Category) {
         _uiState.update {
             it.copy(
-                currentCategory = category
+                currentCategory = category,
+                currentSelectedRecommendation = _uiState.value.categories[category]?.first()
+                    ?: LocalRecommendationsDataProvider.defaultRecommendation
             )
         }
     }
