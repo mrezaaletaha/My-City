@@ -30,14 +30,13 @@ fun MyCityApp(
     val myCityUiState by viewModel.uiState.collectAsState()
 
     val contentType = when (windowSize) {
-        WindowWidthSizeClass.Compact,
-        WindowWidthSizeClass.Medium -> {
+        WindowWidthSizeClass.Compact, -> {
             ContentType.LIST_ONLY
         }
 
-//        WindowWidthSizeClass.Medium -> {
-//            ContentType.CARD_AND_LIST
-//        }
+        WindowWidthSizeClass.Medium -> {
+            ContentType.CARD_AND_LIST
+        }
 
         WindowWidthSizeClass.Expanded -> {
             ContentType.FULL_SCREEN
