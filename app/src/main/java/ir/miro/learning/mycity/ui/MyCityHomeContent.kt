@@ -111,7 +111,7 @@ fun MyCityFullScreen(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.medium_padding)),
                 contentPadding = PaddingValues(bottom = dimensionResource(R.dimen.medium_padding)),
-                modifier = modifier
+                modifier = Modifier
                     .weight(2f)
                     .padding(
                         horizontal = dimensionResource(R.dimen.medium_padding),

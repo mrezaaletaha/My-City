@@ -93,7 +93,6 @@ fun RecommendationDetailsScreen(
                         text = stringResource(selectedRecommendation.category.title),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface,
-//                        modifier = Modifier.weight(1F)
                     )
                 }
             }
