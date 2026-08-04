@@ -11,70 +11,70 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import ir.miro.learning.mycity.R
 import ir.miro.learning.mycity.data.Category
 import ir.miro.learning.mycity.data.Recommendation
 import ir.miro.learning.mycity.ui.utils.ContentType
+import ir.miro.learning.mycity.ui.utils.MyCityScreen
 
 /**
  * @author mrezaaletaha
  */
 
 
-private enum class MyCityScreen {
-    CATEGORY,
-    RECOMMENDATION,
-    DETAILS,
-}
-
 @Composable
 fun MyCityNavigationContent(
     uiState: MyCityUiState,
+    navController: NavHostController,
     onCategoryCardPressed: (Category) -> Unit,
     onRecommendationPressed: (Recommendation) -> Unit,
     contentType: ContentType,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    if (contentType == ContentType.LIST_ONLY) {
-        NavigationListOnlyContent(
-            uiState = uiState,
-            onCategoryCardPressed = onCategoryCardPressed,
-            onRecommendationPressed = onRecommendationPressed,
-            modifier = modifier,
-            contentPadding = contentPadding,
-        )
+    var startDestination by rememberSaveable { mutableStateOf("") }
+
+    startDestination = if (uiState.isShowingListPage) {
+        MyCityScreen.CATEGORY.name
     } else {
-        NavigationCardAndListContent(
-            uiState = uiState,
-            onCategoryCardPressed = onCategoryCardPressed,
-            onRecommendationPressed = onRecommendationPressed,
-            modifier = modifier,
-            contentPadding = contentPadding,
-        )
+        MyCityScreen.RECOMMENDATION.name
     }
+    NavigationListOnlyContent(
+        uiState = uiState,
+        navController = navController,
+        contentType = contentType,
+        startDestination = startDestination,
+        onCategoryCardPressed = onCategoryCardPressed,
+        onRecommendationPressed = onRecommendationPressed,
+        modifier = modifier,
+        contentPadding = contentPadding,
+    )
 }
 
 @Composable
 private fun NavigationListOnlyContent(
     uiState: MyCityUiState,
+    navController: NavHostController,
+    contentType: ContentType,
+    startDestination: String,
     onCategoryCardPressed: (Category) -> Unit,
     onRecommendationPressed: (Recommendation) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    val navController = rememberNavController()
-
     NavHost(
         navController = navController,
-        startDestination = MyCityScreen.CATEGORY.name,
+        startDestination = startDestination,//MyCityScreen.CATEGORY.name,
         modifier = modifier,
     ) {
         composable(route = MyCityScreen.CATEGORY.name) {
@@ -90,17 +90,30 @@ private fun NavigationListOnlyContent(
             )
         }
         composable(route = MyCityScreen.RECOMMENDATION.name) {
-            RecommendationsList(
-                recommendations = uiState.currentCategoryRecommendations,
-                onRecommendationPressed = {
-                    onRecommendationPressed(it)
-                    navController.navigate(MyCityScreen.DETAILS.name)
-                },
-                contentPadding = PaddingValues(dimensionResource(R.dimen.medium_padding)),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding)
-            )
+            if (contentType == ContentType.LIST_ONLY) {
+                RecommendationsList(
+                    recommendations = uiState.currentCategoryRecommendations,
+                    onRecommendationPressed = {
+                        onRecommendationPressed(it)
+                        navController.navigate(MyCityScreen.DETAILS.name)
+                    },
+                    contentPadding = PaddingValues(dimensionResource(R.dimen.medium_padding)),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(contentPadding)
+                )
+            } else {
+                CardAndListContent(
+                    uiState = uiState,
+                    onCategoryCardPressed = onCategoryCardPressed,
+                    onRecommendationPressed = {
+                        onRecommendationPressed(it)
+                        navController.navigate(MyCityScreen.DETAILS.name)
+                    },
+                    contentPadding = contentPadding,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
         composable(route = MyCityScreen.DETAILS.name) {
             RecommendationDetailsScreen(
@@ -108,43 +121,6 @@ private fun NavigationListOnlyContent(
                 contentPadding = contentPadding,
                 modifier = Modifier
                     .fillMaxSize()
-            )
-        }
-    }
-}
-
-@Composable
-private fun NavigationCardAndListContent(
-    uiState: MyCityUiState,
-    onCategoryCardPressed: (Category) -> Unit,
-    onRecommendationPressed: (Recommendation) -> Unit,
-    modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp)
-) {
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = MyCityScreen.RECOMMENDATION.name,
-        modifier = modifier,
-    ) {
-        composable(route = MyCityScreen.RECOMMENDATION.name) {
-            CardAndListContent(
-                uiState = uiState,
-                onCategoryCardPressed = onCategoryCardPressed,
-                onRecommendationPressed = {
-                    onRecommendationPressed(it)
-                    navController.navigate(MyCityScreen.DETAILS.name)
-                },
-                contentPadding = contentPadding,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-        composable(route = MyCityScreen.DETAILS.name) {
-            RecommendationDetailsScreen(
-                selectedRecommendation = uiState.currentSelectedRecommendation,
-                contentPadding = contentPadding,
-                modifier = Modifier.fillMaxSize()
             )
         }
     }

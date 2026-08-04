@@ -13,6 +13,7 @@ data class MyCityUiState(
     val categories: Map<Category, List<Recommendation>> = emptyMap(),
     val currentCategory: Category = LocalCategoriesDataProvider.defaultCategory,
     val currentSelectedRecommendation: Recommendation = LocalRecommendationsDataProvider.defaultRecommendation,
+    val isShowingListPage: Boolean = false,
 ) {
     val currentCategoryRecommendations: List<Recommendation> by lazy { categories[currentCategory]!! }
 }

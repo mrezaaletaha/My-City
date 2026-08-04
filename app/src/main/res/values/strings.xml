@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">My City</string>
+
+    <string name="recommendations_title">Recommendations</string>
+    <string name="details_title">Recommendation info</string>
+
     <string name="restaurants_title">Restaurants</string>
     <string name="coffee_shops_title">Coffee shops</string>
     <string name="attractions_title">Attractions</string>
     <string name="shopping_centers_title">Shopping centers</string>
+
+    <string name="back_button">Back</string>
 
     <string name="recommendations_coffee_shop_1">787 Coffee</string>
     <string name="recommendations_coffee_shop_2">BUDDIES COFFEE</string>

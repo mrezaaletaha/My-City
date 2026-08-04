@@ -46,4 +46,12 @@ class MyCityViewModel : ViewModel() {
             )
         }
     }
+
+    fun updateShowingListPageState(isShowingListPage: Boolean) {
+        _uiState.update {
+            it.copy(
+                isShowingListPage = isShowingListPage,
+            )
+        }
+    }
 }
