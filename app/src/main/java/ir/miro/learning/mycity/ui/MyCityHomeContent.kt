@@ -26,10 +26,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.test.arrow_back
 import ir.miro.learning.mycity.R
 import ir.miro.learning.mycity.data.Category
 import ir.miro.learning.mycity.data.Recommendation
+import ir.miro.learning.mycity.ui.icon.arrow_back
 import ir.miro.learning.mycity.ui.utils.ContentType
 import ir.miro.learning.mycity.ui.utils.MyCityScreen
 

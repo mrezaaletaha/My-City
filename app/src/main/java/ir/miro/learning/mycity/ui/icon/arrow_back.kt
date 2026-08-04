@@ -1,4 +1,4 @@
-package com.example.test
+package ir.miro.learning.mycity.ui.icon
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType
